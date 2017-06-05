@@ -1,0 +1,78 @@
+﻿
+@using Microsoft.AspNet.Identity
+@using WebApplication1.Models
+@{
+    List<Appointment> appointments = ViewBag.appointmentRequests;
+    List<Patient> patients = ViewBag.patientRequests;
+}
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new {title = "Manage"})
+        </li>
+        @if (ViewContext.HttpContext.User.IsInRole("Dentist"))
+        {
+            <li class ="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-calendar"></span></a>
+                <ul class="dropdown-menu">
+                    
+                    @foreach (var item in appointments)
+                    {
+                        <li>@Html.DisplayFor(modelItem => item.Title)</li>
+                    }
+
+
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-user"></span></a>
+                <ul class="dropdown-menu">
+
+                    @foreach (var item in patients)
+                    {
+                        <li>@Html.ActionLink(@Html.DisplayFor(modelItem => item.FirstName).ToHtmlString(), "ApprovePatient","Dentist", new {id = item.Id}, new {@class="glyphicon glyphicon-ok", style="float: right"})</li>
+                    }
+
+
+                </ul>
+            </li>
+        }
+            <li>
+                
+            </li>
+       
+        <li class="dropdown">
+            <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a>
+            <ul class="dropdown-menu">
+                @if (ViewContext.HttpContext.User.IsInRole("Patient"))
+                {
+                <li>@Html.ActionLink("Edit profile", "Edit", "Patient")</li>
+                }
+                @if (ViewContext.HttpContext.User.IsInRole("Dentist"))
+                {
+                    <li>@Html.ActionLink("Edit profile", "EditMyProfile", "Dentist")</li>
+                }
+                @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                {
+                    <li>@Html.ActionLink("Edit profile", "Edit", "Admin")</li>
+                }
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>
+        </li>
+    </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</li>
+
+    </ul>
+}

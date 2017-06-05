@@ -1,0 +1,100 @@
+﻿@using WebApplication1.Models
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - DentisCard</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/kendo/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/kendo")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @RenderSection("css", false)
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @if (ViewContext.HttpContext.User.IsInRole(Role.Dentist) )
+                {
+                    @Html.ActionLink("DentisCard", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                }
+                @if (ViewContext.HttpContext.User.IsInRole("Patient"))
+                {
+                     @Html.ActionLink("DentisCard", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                }
+                @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                {
+                     @Html.ActionLink("DentisCard", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                }
+                @if (ViewContext.HttpContext.User.IsInRole("User"))
+                {
+                    @Html.ActionLink("DentisCard", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                }
+               
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <!-- <li>@Html.ActionLink("Home", "Index", "Home")</li> --> <!--DentisCard is serving as a Home link-->
+                    
+                    @if (ViewContext.HttpContext.User.IsInRole(Role.Dentist))
+                    {
+                        <li>@Html.ActionLink("My Profile", "Index", "Dentist")</li>
+                        <li>@Html.ActionLink("My Patients", "MyPatients", "Dentist")</li>
+                        <li>@Html.ActionLink("My Schedule", "MySchedule", "Dentist")</li>
+                    }
+
+                    @if (ViewContext.HttpContext.User.IsInRole(Role.Patient))
+                    {
+                        <li>@Html.ActionLink("My Profile", "Index", "Patient")</li>
+                        <li>@Html.ActionLink("Arrange Appointment", "ArrangeAppointment", "Patient")</li>
+                        <li>@Html.ActionLink("My Dentist", "MyDentist", "Patient")</li>
+                        <li>@Html.ActionLink("Medical History", "MedicalHistory", "Patient")</li>
+                    }
+                    @if (ViewContext.HttpContext.User.IsInRole(Role.User))
+                    {
+                        <li>@Html.ActionLink("My Profile", "Index", "Patient")</li>
+                        <li>@Html.ActionLink("Find Dentist", "PickDentist", "Patient")</li>
+                        <li>@Html.ActionLink("Edit profile", "Edit", "Patient")</li>
+                    }
+
+                    @if (ViewContext.HttpContext.User.IsInRole(Role.Admin))
+                    {
+                        <li>@Html.ActionLink("My Profile", "Index", "Admin")</li>
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Users management<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("List Dentist", "GetDentist", "Admin")</li>
+                                <li>@Html.ActionLink("List Patients ", "GetPatients", "Admin")</li>
+                            </ul>
+                        </li>
+
+                        <li>@Html.ActionLink("Manage Updates", "Updates", "Admin")</li>
+                    }
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                 
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - DentisCard</p>
+        </footer>
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+﻿@model WebApplication1.ViewModels.PatientProfileViewModel
+@using WebApplication1.Enumerations
+
+@{
+    ViewBag.Title = "MedicalHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MedicalHistory</h2>
+
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">@Html.LabelFor(model => model.Patient.FirstName, htmlAttributes: new { @class = "control-label" })</div>
+    <!-- Table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>@Html.LabelFor(model => model.MedicalRecord.Description, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+                <th>@Html.LabelFor(model => model.MedicalRecord.DateCreated, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+                <th> @Html.LabelFor(model => model.MedicalRecord.Bill, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.MedicalRecords)
+            {
+                int num = 1;
+
+                <tr>
+                    <th scope="row">1</th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateCreated)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Bill)
+                    </td>
+                </tr>
+                num = num + 1;
+            }
+        </tbody>
+    </table>
+</div>

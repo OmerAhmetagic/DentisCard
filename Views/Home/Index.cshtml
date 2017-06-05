@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebApplication1.Models.Note>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Hello!</h1>
+    <p class="lead">Get the latest news and updates! See all informations about our application here.</p>
+    <p>  @*<a href="LINK FOR ALL UPDATES" class="btn btn-primary btn-lg">See all updates &raquo;</a>*@ 
+         @Html.ActionLink("See all updates >>", "ListAllUpdates", null, new { @class="btn btn-primary btn-lg" } ) 
+    </p>
+</div >
+
+<div class="row">
+    @*<div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+            enables a clean separation of concerns and gives you full control over markup
+            for enjoyable, agile development.
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Web Hosting</h2>
+        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>*@
+
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3" style="border: 2px solid #102dde; margin-left: 40px; border-radius: 10px" >
+                <h2>@Html.DisplayFor(modelItem => item.Title).ToHtmlString()</h2>
+                <p style="font-size: x-small">@Html.DisplayFor(modelItem => item.DateCreated).ToHtmlString()</p>
+                <div style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; line-height: 16px; max-height: 48px; -webkit-line-clamp: 6; -webkit-box-orient: vertical">
+                    <p>@Html.DisplayFor(modelItem => item.Comment).ToHtmlString()...</p>
+                </div>
+                <br />
+                <a href="">Read more...</a>
+                
+            </div>
+        }
+        
+</div>
